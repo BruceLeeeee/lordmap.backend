@@ -4,7 +4,7 @@ public class Land {
 	private int id;
 	private int price;
 	private int[] lats;
-	private int[] longis;
+	private int[] longs;
 	private int defence;
 	private String owner;
 	public int getId() {
@@ -25,11 +25,11 @@ public class Land {
 	public void setLats(int[] lats) {
 		this.lats = lats;
 	}
-	public int[] getLongis() {
-		return longis;
+	public int[] getLongs() {
+		return longs;
 	}
-	public void setLongis(int[] longis) {
-		this.longis = longis;
+	public void setLongis(int[] longs) {
+		this.longs = longs;
 	}
 	public int getDefence() {
 		return defence;
