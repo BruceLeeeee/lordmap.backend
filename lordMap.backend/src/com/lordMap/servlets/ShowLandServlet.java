@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.labs.repackaged.org.json.JSONObject;
 import com.lordMap.datastore.DataStore;
 import com.lordMap.models.Land;
 
@@ -23,6 +24,9 @@ public class ShowLandServlet extends HttpServlet {
 		String userId = req.getParameter("userId");
 		DataStore ds = new DataStore();
 		ArrayList<Land> lands = ds.showLands(userId);
-		
+		JSONObject result = new JSONObject();
+		for (Land l : lands) {
+			
+		}
 	}
 }

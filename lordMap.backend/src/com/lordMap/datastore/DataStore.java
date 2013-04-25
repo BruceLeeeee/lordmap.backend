@@ -83,7 +83,7 @@ public class DataStore {
 			longs[0] = (Integer) l.getProperty("long0");
 			longs[1] = (Integer) l.getProperty("long1");
 			nl.setLats(lats);
-			nl.setLongis(longs);
+			nl.setLongs(longs);
 			
 			lands.add(nl);
 		}

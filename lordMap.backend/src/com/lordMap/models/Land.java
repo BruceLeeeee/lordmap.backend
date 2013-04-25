@@ -28,7 +28,7 @@ public class Land {
 	public int[] getLongs() {
 		return longs;
 	}
-	public void setLongis(int[] longs) {
+	public void setLongs(int[] longs) {
 		this.longs = longs;
 	}
 	public int getDefence() {
