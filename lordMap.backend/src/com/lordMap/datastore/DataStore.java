@@ -69,10 +69,20 @@ public class DataStore {
 	
 	//check whether two squares overlap
 	public boolean checkOverlap(double[] lats1, double[] longs1, double[] lats2, double[] longs2) {
-		if (lats1[0] > lats2[1] || lats1[1] < lats2[0] || longs1[0] < longs2[1] || longs1[1] > longs2[0]) 
+		if (lats1[0] > lats2[1] || lats1[1] < lats2[0] || longs1[0] < longs2[1] || longs1[	1] > longs2[0]) 
 			return false;
 		else
 			return true;
+	}
+	
+	//check whether a land overlap with all other lands buyed
+	public boolean checkOverlaps(double[] lats, double[] longs) {
+		ArrayList<Land> lands = findAllLands();
+		for (Land l : lands) {
+			if (checkOverlap(l.getLats(), l.getLongs(), lats, longs))
+				return true;
+		}
+		return false;
 	}
 	
 	public ArrayList<Land> showLands(String userId) {
@@ -98,6 +108,30 @@ public class DataStore {
 			lands.add(nl);
 		}
 		return lands;
+	}
+	
+	public ArrayList<Land> findAllLands() {
+		Key key = KeyFactory.createKey("land", "default");
+		ArrayList<Land> lands = new ArrayList<Land>();
+		Query query = new Query(key);
+		List<Entity> ls = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(100));
+		for (Entity l : ls) {
+			Land nl = new Land();
+			nl.setOwner((String) l.getProperty("owner"));
+			nl.setId((Integer) l.getProperty("id"));
+			nl.setPrice((Integer) l.getProperty("price"));
+			nl.setDefence((Integer) l.getProperty("defence"));
+			double[] lats = new double[2];
+			double[] longs = new double[2];
+			lats[0] = (Double) l.getProperty("lat0");
+			lats[1] = (Double) l.getProperty("lat1");
+			longs[0] = (Double) l.getProperty("long0");
+			longs[1] = (Double) l.getProperty("long1");
+			nl.setLats(lats);
+			nl.setLongs(longs);
+			lands.add(nl);
+		}
+	    return lands;
 	}
 	
 	public ArrayList<Land> findLands(double lat, double lng) {
