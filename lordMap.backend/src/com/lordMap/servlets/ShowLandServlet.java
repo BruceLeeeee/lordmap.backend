@@ -38,9 +38,9 @@ public class ShowLandServlet extends HttpServlet {
 				r.put("price", l.getPrice());
 				r.put("defence", l.getDefence());
 				r.put("lat0", l.getLats()[0]);
-				r.put("long1", l.getLongs()[0]);
+				r.put("long0", l.getLongs()[0]);
 				r.put("lat1", l.getLats()[1]);
-				r.put("long1:", l.getLongs()[1]);
+				r.put("long1", l.getLongs()[1]);
 				arr.put(r);
 			} catch (JSONException e) {
 				e.printStackTrace();
