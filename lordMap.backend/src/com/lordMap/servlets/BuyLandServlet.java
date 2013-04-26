@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.lordMap.datastore.DataStore;
+
 public class BuyLandServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 2295494714038913299L;
@@ -20,6 +22,8 @@ public class BuyLandServlet extends HttpServlet {
 		double lat1 = Double.valueOf(req.getParameter("lat1"));
 		double long0 = Double.valueOf(req.getParameter("long0"));
 		double long1 = Double.valueOf(req.getParameter("long1"));
+		
+		DataStore ds = new DataStore();
 		
 	}
 }
