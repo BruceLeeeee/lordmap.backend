@@ -78,10 +78,10 @@ public class DataStore {
 			nl.setDefence((Integer) l.getProperty("defence"));
 			double[] lats = new double[2];
 			double[] longs = new double[2];
-			lats[0] = (Integer) l.getProperty("lat0");
-			lats[1] = (Integer) l.getProperty("lat1");
-			longs[0] = (Integer) l.getProperty("long0");
-			longs[1] = (Integer) l.getProperty("long1");
+			lats[0] = (Double) l.getProperty("lat0");
+			lats[1] = (Double) l.getProperty("lat1");
+			longs[0] = (Double) l.getProperty("long0");
+			longs[1] = (Double) l.getProperty("long1");
 			nl.setLats(lats);
 			nl.setLongs(longs);
 			
