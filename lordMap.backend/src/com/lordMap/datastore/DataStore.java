@@ -65,8 +65,12 @@ public class DataStore {
 
 	}
 	
-	public boolean checkOverlap(double[] lats1, double[] longs1, double[] lats2, double longs2) {
-		return true;
+	//check whether two squares overlap
+	public boolean checkOverlap(double[] lats1, double[] longs1, double[] lats2, double[] longs2) {
+		if (lats1[0] > lats2[1] || lats1[1] < lats2[0] || longs1[0] < longs2[1] || longs1[1] > longs2[0]) 
+			return false;
+		else
+			return true;
 	}
 	
 	public ArrayList<Land> showLands(String userId) {
