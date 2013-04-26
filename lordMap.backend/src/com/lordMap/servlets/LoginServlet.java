@@ -49,7 +49,7 @@ public class LoginServlet extends HttpServlet {
 		}
 		out.print(result);
 		out.flush();
-		
+		out.close();
 	}
 
 }
