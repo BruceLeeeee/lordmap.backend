@@ -65,6 +65,10 @@ public class DataStore {
 
 	}
 	
+	public boolean checkOverlap(double[] lats1, double[] longs1, double[] lats2, double longs2) {
+		return true;
+	}
+	
 	public ArrayList<Land> showLands(String userId) {
 		Key key = KeyFactory.createKey("land", "default");
 		ArrayList<Land> lands = new ArrayList<Land>();
