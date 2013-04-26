@@ -36,4 +36,12 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
         <servlet-name>getsurrounding</servlet-name>
         <url-pattern>/getsurrounding</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>buyland</servlet-name>
+        <servlet-class>com.lordMap.servlets.BuyLandServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>buyland</servlet-name>
+        <url-pattern>/buyland</url-pattern>
+    </servlet-mapping>
 </web-app>
