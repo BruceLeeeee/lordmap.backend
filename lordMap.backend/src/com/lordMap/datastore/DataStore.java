@@ -89,4 +89,58 @@ public class DataStore {
 		}
 		return lands;
 	}
+	
+	public ArrayList<Land> findLands(double lat, double lng) {
+		Key key = KeyFactory.createKey("land", "default");
+		ArrayList<Land> lands = new ArrayList<Land>();
+		Query query = new Query(key);
+		List<Entity> ls = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(100));
+		// Get the results and process them, casting to the required types 
+	    for (Entity ent : ls) {
+	    	double[] lats = new double[5];
+	    	double[] lngs = new double[5];
+	    	lats[0] = lat;
+	    	lngs[0] = lng;
+	    	lats[1] = (Double)ent.getProperty("lat0");
+	    	lngs[1] = (Double)ent.getProperty("long0");
+	    	lats[2] = (Double)ent.getProperty("lat1");
+	    	lngs[2] = (Double)ent.getProperty("long1");	    	
+	    	if (landIsInsideCircle(lats, lngs)) {
+	    		Land land = new Land();
+	    		land.setLats(lats);
+	    		land.setLongs(lngs);
+	    	}
+	    	
+	    }
+	   
+	    return lands;
+	}
+	
+	private boolean landIsInsideCircle(double[] lats, double[] lngs) {
+		lats[3] = lats[2];
+		lngs[3] = lngs[1];
+		lats[4] = lats[1];
+		lngs[4] = lngs[2];
+		
+		for (int i = 0; i < 5; i++) {
+			lats[i] += 180;
+			lngs[i] += 180;
+		}
+		
+		for (int i = 1; i < 5; i++) 
+			if (pointIsInsideCircle(lats, lngs, i))
+				return true;
+		
+		return false;
+	}
+	
+	private boolean pointIsInsideCircle(double[] lats, double[] lngs, int index) {
+		double dis = (lats[index] - lats[0]) * (lats[index] - lats[0]) + (lngs[index] - lngs[0]) * (lngs[index] - lngs[0]);    
+		if (dis - RADIUS < 0.0000001)
+			return true;
+		
+		return false;
+	}
+	
+	private final static double RADIUS = 1;
 }

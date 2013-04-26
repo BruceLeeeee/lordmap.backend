@@ -24,13 +24,9 @@ public class GetSurroundingServlet extends HttpServlet {
 		PrintWriter out = resp.getWriter();
 		DataStore ds = new DataStore();
 		parseReq(req);
-		findLands();
+		landlist = ds.findLands(lat, lng);
 	}
-	
-	private void findLands() {
 		
-	}
-	
 	private void parseReq(HttpServletRequest req) {
 		userId = req.getParameter("userIds");
 		String tmp = req.getParameter("lat");		
