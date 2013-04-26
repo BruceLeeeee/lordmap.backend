@@ -20,6 +20,11 @@ public class GetSurroundingServlet extends HttpServlet {
 	 * userId=?lat=?lng=?
 	 */
 	private static final long serialVersionUID = 9049311948468914720L;
+	
+	private String userId;
+	private double lat;
+	private double lng;
+	private ArrayList<Land> lands = new ArrayList<Land>();
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -62,12 +67,8 @@ public class GetSurroundingServlet extends HttpServlet {
 	private void parseReq(HttpServletRequest req) {
 		userId = req.getParameter("userIds");
 		String tmp = req.getParameter("lat");		
-		lat = Integer.parseInt(tmp);
+		lat = Double.parseDouble(tmp);
 		tmp = req.getParameter("lng");		
-		lng = Integer.parseInt(tmp);
+		lng = Double.parseDouble(tmp);
 	}
-	private String userId;
-	private int lat;
-	private int lng;
-	private ArrayList<Land> lands = new ArrayList<Land>();
 }
