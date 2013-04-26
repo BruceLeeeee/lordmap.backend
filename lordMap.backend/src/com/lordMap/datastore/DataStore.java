@@ -168,10 +168,10 @@ public class DataStore {
 	    	double[] center = new double[2];
 	    	center[0] = lat;
 	    	center[1] = lng;
-//	    	if (rectAndCircleAreOverlap(land.getLats(), land.getLongs(), center)) {
-//	    		lands.add(land);
-//	    	}
-	    	lands.add(land);
+	    	if (rectAndCircleAreOverlap(land.getLats(), land.getLongs(), center)) {
+	    		lands.add(land);
+	    	}
+//	    	lands.add(land);
 		}
 		
 	    return lands;
@@ -186,11 +186,6 @@ public class DataStore {
 		rectLngs[2] = lngs[0];
 		rectLats[3] = lats[0];
 		rectLngs[3] = lngs[1];
-		
-		for (int i = 0; i < 4; i++) {
-			rectLats[i] += 180;
-			rectLngs[i] += 180;
-		}
 	}
 	
 	private void initCircle(double[] circleLats, double[] circleLngs, double[] center) {
@@ -202,11 +197,6 @@ public class DataStore {
 		circleLngs[2] = center[1] - RADIUS;
 		circleLats[3] = center[0] - RADIUS;
 		circleLngs[3] = center[1];
-		
-		for (int i = 0; i < 4; i++) {
-			circleLats[i] += 180;
-			circleLngs[i] += 180;
-		}
 	}
 	
 	private boolean rectAndCircleAreOverlap(double[] lats, double[] lngs, double[] center) {
@@ -260,7 +250,7 @@ public class DataStore {
 	
 	private boolean pointIsInsideCircle(double[] point, double[] center) {
 		double dis = (point[0] - center[0]) * (point[0] - center[0]) + (point[1] - center[1]) * (point[1] - center[1]);    
-		if (dis - RADIUS < PRECISION)
+		if (Math.sqrt(dis) - RADIUS < PRECISION)
 			return true;
 		
 		return false;
