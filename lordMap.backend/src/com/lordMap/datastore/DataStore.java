@@ -109,6 +109,11 @@ public class DataStore {
 	    		Land land = new Land();
 	    		land.setLats(lats);
 	    		land.setLongs(lngs);
+	    		land.setOwner((String)ent.getProperty("userId"));
+	    		land.setId((Integer) ent.getProperty("id"));
+	    		land.setPrice((Integer) ent.getProperty("price"));
+	    		land.setDefence((Integer) ent.getProperty("defence"));
+	    		lands.add(land);
 	    	}
 	    	
 	    }

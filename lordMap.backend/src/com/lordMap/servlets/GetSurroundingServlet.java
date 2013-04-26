@@ -8,6 +8,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.appengine.labs.repackaged.org.json.JSONArray;
+import com.google.appengine.labs.repackaged.org.json.JSONException;
+import com.google.appengine.labs.repackaged.org.json.JSONObject;
 import com.lordMap.datastore.DataStore;
 import com.lordMap.models.Land;
 
@@ -24,7 +28,35 @@ public class GetSurroundingServlet extends HttpServlet {
 		PrintWriter out = resp.getWriter();
 		DataStore ds = new DataStore();
 		parseReq(req);
-		landlist = ds.findLands(lat, lng);
+		lands = ds.findLands(lat, lng);
+		JSONObject results = new JSONObject();
+		JSONArray arr = new JSONArray();
+		for (Land l : lands) {
+			JSONObject r = new JSONObject();
+			try {
+				r.put("id", l.getId());
+				r.put("owner", l.getOwner());
+				r.put("price", l.getPrice());
+				r.put("defence", l.getDefence());
+				r.put("lat0", l.getLats()[0]);
+				r.put("long1", l.getLongs()[0]);
+				r.put("lat1", l.getLats()[1]);
+				r.put("long1:", l.getLongs()[1]);
+				arr.put(r);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		try {
+			results.put("results", arr);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		out.print(results);
+		out.flush();
+		out.close();
 	}
 		
 	private void parseReq(HttpServletRequest req) {
@@ -37,5 +69,5 @@ public class GetSurroundingServlet extends HttpServlet {
 	private String userId;
 	private int lat;
 	private int lng;
-	private ArrayList<Land> landlist = new ArrayList<Land>();
+	private ArrayList<Land> lands = new ArrayList<Land>();
 }
