@@ -3,8 +3,8 @@ package com.lordMap.models;
 public class Land {
 	private int id;
 	private int price;
-	private int[] lats;
-	private int[] longs;
+	private double[] lats;
+	private double[] longs;
 	private int defence;
 	private String owner;
 	public int getId() {
@@ -19,16 +19,16 @@ public class Land {
 	public void setPrice(int price) {
 		this.price = price;
 	}
-	public int[] getLats() {
+	public double[] getLats() {
 		return lats;
 	}
-	public void setLats(int[] lats) {
+	public void setLats(double[] lats) {
 		this.lats = lats;
 	}
-	public int[] getLongs() {
+	public double[] getLongs() {
 		return longs;
 	}
-	public void setLongs(int[] longs) {
+	public void setLongs(double[] longs) {
 		this.longs = longs;
 	}
 	public int getDefence() {
