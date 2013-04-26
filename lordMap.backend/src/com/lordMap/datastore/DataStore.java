@@ -135,34 +135,45 @@ public class DataStore {
 	}
 	
 	public ArrayList<Land> findLands(double lat, double lng) {
-		Key key = KeyFactory.createKey("land", "default");
+//		Key key = KeyFactory.createKey("land", "default");
+//		ArrayList<Land> lands = new ArrayList<Land>();
+//		Query query = new Query(key);
+//		List<Entity> ls = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(100));
+//		// Get the results and process them, casting to the required types 
+//	    for (Entity ent : ls) {
+//	    	double[] lats = new double[2];
+//	    	double[] lngs = new double[2];
+//	    	double[] center = new double[2];
+//	    	center[0] = lat;
+//	    	center[1] = lng;
+//	    	lats[0] = (Double)ent.getProperty("lat0");
+//	    	lngs[0] = (Double)ent.getProperty("long0");
+//	    	lats[1] = (Double)ent.getProperty("lat1");
+//	    	lngs[1] = (Double)ent.getProperty("long1");	    	
+//	    	if (rectAndCircleAreOverlap(lats, lngs, center)) {
+//	    		Land land = new Land();
+//	    		land.setLats(lats);
+//	    		land.setLongs(lngs);
+//	    		land.setOwner((String)ent.getProperty("userId"));
+//	    		land.setId((Integer) ent.getProperty("id"));
+//	    		land.setPrice((Integer) ent.getProperty("price"));
+//	    		land.setDefence((Integer) ent.getProperty("defence"));
+//	    		lands.add(land);
+//	    	}
+//	    	
+//	    }
+		ArrayList<Land> allLands = findAllLands();
 		ArrayList<Land> lands = new ArrayList<Land>();
-		Query query = new Query(key);
-		List<Entity> ls = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(100));
-		// Get the results and process them, casting to the required types 
-	    for (Entity ent : ls) {
-	    	double[] lats = new double[2];
-	    	double[] lngs = new double[2];
+		for (Land land: allLands) {
 	    	double[] center = new double[2];
 	    	center[0] = lat;
 	    	center[1] = lng;
-	    	lats[0] = (Double)ent.getProperty("lat0");
-	    	lngs[0] = (Double)ent.getProperty("long0");
-	    	lats[1] = (Double)ent.getProperty("lat1");
-	    	lngs[1] = (Double)ent.getProperty("long1");	    	
-	    	if (rectAndCircleAreOverlap(lats, lngs, center)) {
-	    		Land land = new Land();
-	    		land.setLats(lats);
-	    		land.setLongs(lngs);
-	    		land.setOwner((String)ent.getProperty("userId"));
-	    		land.setId((Integer) ent.getProperty("id"));
-	    		land.setPrice((Integer) ent.getProperty("price"));
-	    		land.setDefence((Integer) ent.getProperty("defence"));
-	    		lands.add(land);
-	    	}
-	    	
-	    }
-	   
+//	    	if (rectAndCircleAreOverlap(land.getLats(), land.getLongs(), center)) {
+//	    		lands.add(land);
+//	    	}
+	    	lands.add(land);
+		}
+		
 	    return lands;
 	}
 	
