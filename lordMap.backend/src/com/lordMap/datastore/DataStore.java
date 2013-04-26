@@ -54,14 +54,14 @@ public class DataStore {
 	public void storeLand(Land newLand) {
 		Key key = KeyFactory.createKey("land", "default");
 		Entity land = new Entity(newLand.getOwner(), key);
-		land.setProperty("userId", newLand.getOwner());
-		land.setProperty("id", newLand.getId());
+		land.setProperty("owner", newLand.getOwner());
+		//land.setProperty("id", newLand.getId());
 		land.setProperty("lat0", newLand.getLats()[0]);
 		land.setProperty("lat1", newLand.getLats()[1]);
 		land.setProperty("long0", newLand.getLongs()[0]);
 		land.setProperty("long1", newLand.getLongs()[1]);
-		land.setProperty("price", newLand.getPrice());
-		land.setProperty("defence", newLand.getDefence());
+		//land.setProperty("price", newLand.getPrice());
+		//land.setProperty("defence", newLand.getDefence());
 
 		datastore.put(land);
 
@@ -93,9 +93,9 @@ public class DataStore {
 		for (Entity l : ls) {
 			Land nl = new Land();
 			nl.setOwner(userId);
-			nl.setId((Integer) l.getProperty("id"));
-			nl.setPrice((Integer) l.getProperty("price"));
-			nl.setDefence((Integer) l.getProperty("defence"));
+			//nl.setId((Integer) l.getProperty("id"));
+			//nl.setPrice((Integer) l.getProperty("price"));
+			//nl.setDefence((Integer) l.getProperty("defence"));
 			double[] lats = new double[2];
 			double[] longs = new double[2];
 			lats[0] = (Double) l.getProperty("lat0");
@@ -118,9 +118,9 @@ public class DataStore {
 		for (Entity l : ls) {
 			Land nl = new Land();
 			nl.setOwner((String) l.getProperty("owner"));
-			nl.setId((Integer) l.getProperty("id"));
-			nl.setPrice((Integer) l.getProperty("price"));
-			nl.setDefence((Integer) l.getProperty("defence"));
+			//nl.setId((Integer) l.getProperty("id"));
+			//nl.setPrice((Integer) l.getProperty("price"));
+			//nl.setDefence((Integer) l.getProperty("defence"));
 			double[] lats = new double[2];
 			double[] longs = new double[2];
 			lats[0] = (Double) l.getProperty("lat0");
