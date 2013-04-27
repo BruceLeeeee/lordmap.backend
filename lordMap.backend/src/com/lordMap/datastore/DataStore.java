@@ -278,6 +278,7 @@ public class DataStore {
 		Key key = KeyFactory.createKey("request", "default");
 		Entity request = new Entity(userId1, key);
 		request.setProperty("requester", userId2);
+		datastore.put(request);
 	}
 	
 	//add friend relationship to datastore
