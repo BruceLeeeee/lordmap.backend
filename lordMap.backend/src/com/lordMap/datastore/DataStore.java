@@ -314,7 +314,15 @@ public class DataStore {
 	}
 	
 	//show all friends
-	public void showFriends(String userId) {
+	public ArrayList<String> showFriends(String userId) {
+		Key key = KeyFactory.createKey("friend", "default");
+		Query query = new Query(userId, key);
+		List<Entity> rs = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(100));
+		ArrayList<String> friends = new ArrayList<String>();
+		for (Entity ent : rs) {
+			friends.add((String)ent.getProperty("friend"));
+		}
 		
+		return friends;
 	}
 }
