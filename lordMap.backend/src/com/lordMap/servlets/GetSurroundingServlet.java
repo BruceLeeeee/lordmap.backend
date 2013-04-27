@@ -42,6 +42,7 @@ public class GetSurroundingServlet extends HttpServlet {
 		getRel(rel);
 		JSONObject results = new JSONObject();
 		JSONArray arr = new JSONArray();
+		int count = 0;
 		for (Land l : lands) {
 			JSONObject r = new JSONObject();
 			try {
@@ -53,7 +54,8 @@ public class GetSurroundingServlet extends HttpServlet {
 				r.put("long0", l.getLongs()[0]);
 				r.put("lat1", l.getLats()[1]);
 				r.put("long1", l.getLongs()[1]);
-				r.put("rel", "own");
+				r.put("rel", rel[count]);
+				count++;
 				arr.put(r);
 			} catch (JSONException e) {
 				e.printStackTrace();
