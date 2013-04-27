@@ -12,16 +12,16 @@ public class Inventory {
 									"Wall of Freedom",
 									"Wall of Light"
 									};
-	public static final int[] price = {1000,
-								  2000,
-								  3000,
-								  4000,
-								  5000,
-								  1000,
-								  2000,
-								  3000,
-								  4000,
-								  5000
+	public static final int[] price = {10000,
+								  20000,
+								  30000,
+								  40000,
+								  50000,
+								  10000,
+								  20000,
+								  30000,
+								  40000,
+								  50000
 								  };	
 	public static final String[] type = {"weapon",
 									"weapon",
@@ -33,11 +33,11 @@ public class Inventory {
 									"wall",
 									"wall",
 									"wall"};
-	public static final int[] atkPoint = {500,
-									 1000,
-									 1500,
-									 2000,
-									 2500,
+	public static final int[] atkPoint = {5000,
+									 10000,
+									 15000,
+									 20000,
+									 25000,
 									 0,
 									 0,
 									 0,
@@ -48,9 +48,9 @@ public class Inventory {
 									 0,
 									 0,
 									 0,
-									 500,
-									 1000,
-									 1500,
-									 2000,
-									 2500};
+									 5000,
+									 10000,
+									 15000,
+									 20000,
+									 25000};
 }

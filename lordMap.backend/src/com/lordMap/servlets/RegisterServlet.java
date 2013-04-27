@@ -50,6 +50,8 @@ public class RegisterServlet extends HttpServlet {
 			User user = new User();
 			user.setUserId(userId);
 			user.setUserPwd(userPwd);
+			user.setAtk(500);
+			user.setMoney(10000);
 			ds.storeUser(user);
 		}
 		out.print(result);
