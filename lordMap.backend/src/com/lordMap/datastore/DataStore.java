@@ -278,7 +278,7 @@ public class DataStore {
 		request.setProperty("requester", userId2);
 	}
 	
-	//add frien relationship to datastore
+	//add friend relationship to datastore
 	public void confirmRequest(String userId1, String userId2) {
 		Key key = KeyFactory.createKey("friend", "default");
 		//add to userId1's friend list
@@ -301,9 +301,16 @@ public class DataStore {
 	}
 	
 	//show all friend requests
-	public void showRequests(String userId) {
+	public ArrayList<String> showRequests(String userId) {
 		Key key = KeyFactory.createKey("request", "default");
 		Query query = new Query(userId, key);
+		ArrayList<String> friends = new ArrayList<String>();
+		List<Entity> rs = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(100));
+		for (Entity r : rs) {
+			String requester = (String) r.getProperty("requester");
+			friends.add(requester);
+		}
+		return friends;
 	}
 	
 	//show all friends
