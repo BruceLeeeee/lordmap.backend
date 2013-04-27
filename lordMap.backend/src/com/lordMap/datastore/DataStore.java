@@ -64,6 +64,8 @@ public class DataStore {
 		land.setProperty("long1", newLand.getLongs()[1]);
 		//land.setProperty("price", newLand.getPrice());
 		//land.setProperty("defence", newLand.getDefence());
+		newLand.setId(findAllLands().size());
+		land.setProperty("id", newLand.getId());
 
 		datastore.put(land);
 
