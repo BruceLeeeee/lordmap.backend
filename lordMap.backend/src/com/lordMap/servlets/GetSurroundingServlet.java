@@ -3,6 +3,7 @@ package com.lordMap.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -25,7 +26,8 @@ public class GetSurroundingServlet extends HttpServlet {
 	private double lat;
 	private double lng;
 	private ArrayList<Land> lands = new ArrayList<Land>();
-
+	private ArrayList<String> friends = new ArrayList<String>();
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -34,6 +36,10 @@ public class GetSurroundingServlet extends HttpServlet {
 		DataStore ds = new DataStore();
 		parseReq(req);
 		lands = ds.findLands(lat, lng);
+		friends = ds.showFriends(userId);
+		Collections.sort(friends);
+		String[] rel = new String[lands.size()];
+		getRel(rel);
 		JSONObject results = new JSONObject();
 		JSONArray arr = new JSONArray();
 		for (Land l : lands) {
@@ -66,10 +72,35 @@ public class GetSurroundingServlet extends HttpServlet {
 	}
 		
 	private void parseReq(HttpServletRequest req) {
-		userId = req.getParameter("userIds");
+		userId = req.getParameter("userId");
 		String tmp = req.getParameter("lat");		
 		lat = Double.parseDouble(tmp);
 		tmp = req.getParameter("lng");		
 		lng = Double.parseDouble(tmp);
+	}
+	
+	private void getRel(String[] rel) {
+		int count = 0;
+		for (Land land: lands) {
+			if (land.getOwner().equals(userId)) {
+				rel[count] = "own";
+				count++;
+				continue;
+			}
+			if (isFriend(land.getOwner())) {
+				rel[count] = "friend";
+				count++;
+				continue;
+			}
+			rel[count] = "others";
+			count++;
+		}
+	}
+	
+	private boolean isFriend(String userId1) {
+		if (Collections.binarySearch(friends, userId1) >= 0)
+			return true;
+		
+		return false;
 	}
 }
