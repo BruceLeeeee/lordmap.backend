@@ -44,4 +44,21 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
         <servlet-name>buyland</servlet-name>
         <url-pattern>/buyland</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>addfriend</servlet-name>
+        <servlet-class>com.lordMap.servlets.AddFriendServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>addfriend</servlet-name>
+        <url-pattern>/addfriend</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>confirmfriend</servlet-name>
+        <servlet-class>com.lordMap.servlets.ConfirmFriendServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>confirmfriend</servlet-name>
+        <url-pattern>/confirmfriend</url-pattern>
+    </servlet-mapping>
+    
 </web-app>

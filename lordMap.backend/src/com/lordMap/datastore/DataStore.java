@@ -3,6 +3,8 @@ package com.lordMap.datastore;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.jsp.ah.datastoreViewerBody_jsp;
+
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -23,7 +25,7 @@ public class DataStore {
 	public DataStore() {
 		datastore = DatastoreServiceFactory.getDatastoreService();
 	}
-
+	
 	//check whether userId exists
 	public boolean checkUserId(String userId) {
 		Key key = KeyFactory.createKey("user", "default");
@@ -254,5 +256,58 @@ public class DataStore {
 			return true;
 		
 		return false;
+	}
+	
+	//check whether request before
+	public boolean checkRequest(String userId1, String userId2) {
+		Key key = KeyFactory.createKey("request", "default");
+		Query query = new Query(userId1, key);
+		List<Entity> rs = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(100));
+		for (Entity r : rs) {
+			String requester = (String) r.getProperty("requester");
+			if (requester.equals(userId2))
+				return true;
+		}
+		return false;
+	}
+	
+	//add the add friend reqeust to datastore
+	public void addRequest(String userId1, String userId2) {
+		Key key = KeyFactory.createKey("request", "default");
+		Entity request = new Entity(userId1, key);
+		request.setProperty("requester", userId2);
+	}
+	
+	//add frien relationship to datastore
+	public void confirmRequest(String userId1, String userId2) {
+		Key key = KeyFactory.createKey("friend", "default");
+		//add to userId1's friend list
+		Entity friend1 = new Entity(userId1, key);
+		friend1.setProperty("friend", userId2);
+		datastore.put(friend1);
+		//add to userId2's friend list
+		Entity friend2 = new Entity(userId2, key);
+		friend2.setProperty("friend", userId1);
+		datastore.put(friend2);
+		//remove from userId1's request list
+		Key rkey = KeyFactory.createKey("request", "default");
+		Query query = new Query(userId1, rkey);
+		List<Entity> rs = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(100));
+		for (Entity r : rs) {
+			String requester = (String) r.getProperty("requester");
+			if (requester.equals(userId2))
+				datastore.delete(r.getKey());
+		}
+	}
+	
+	//show all friend requests
+	public void showRequests(String userId) {
+		Key key = KeyFactory.createKey("request", "default");
+		Query query = new Query(userId, key);
+	}
+	
+	//show all friends
+	public void showFriends(String userId) {
+		
 	}
 }
