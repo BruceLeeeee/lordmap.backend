@@ -1,7 +1,12 @@
 package com.lordMap.datastore;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+
+import sun.util.resources.CalendarData;
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -47,6 +52,7 @@ public class DataStore {
 		Entity user = new Entity(newUser.getUserId(), key);
 		user.setProperty("userId", newUser.getUserId());
 		user.setProperty("userPwd", newUser.getUserPwd());
+		user.setProperty("atk", newUser.getAtk());
 		user.setProperty("money", newUser.getMoney());
 		datastore.put(user);		
 	}
@@ -55,7 +61,6 @@ public class DataStore {
 		Key key = KeyFactory.createKey("land", "default");
 		Entity land = new Entity(newLand.getOwner(), key);
 		land.setProperty("owner", newLand.getOwner());
-		//land.setProperty("id", newLand.getId());
 		land.setProperty("lat0", newLand.getLats()[0]);
 		land.setProperty("lat1", newLand.getLats()[1]);
 		land.setProperty("long0", newLand.getLongs()[0]);
@@ -277,6 +282,7 @@ public class DataStore {
 		Key key = KeyFactory.createKey("request", "default");
 		Entity request = new Entity(userId1, key);
 		request.setProperty("requester", userId2);
+		datastore.put(request);
 	}
 	
 	//add friend relationship to datastore
@@ -362,5 +368,93 @@ public class DataStore {
 		Entity commodity = new Entity(userId, key);
 		commodity.setProperty("index", inventoryIndex);
 		datastore.put(commodity);
+	}
+
+	//check whether one date is one day after than another date
+	private boolean afterOneDay(Date date, Date lastAtk) {
+		if (date.getYear() < lastAtk.getYear())
+			return false;
+		else if (date.getYear() > lastAtk.getYear())
+			return true;
+		else if (date.getMonth() < lastAtk.getMonth() )
+			return false;
+		else if (date.getMonth() > lastAtk.getMonth())
+			return true;
+		else if (date.getDate() < date.getDate())
+			return false;
+		else if (date.getDate() > date.getDate())
+			return true;
+		else 
+			return false;
+	}
+	
+	//change owner of the land
+	private void changeOwner(String userId, long landId) {
+		Key lkey = KeyFactory.createKey("land", "default");
+		Query lquery = new Query(lkey);
+		List<Entity> ls = datastore.prepare(lquery).asList(FetchOptions.Builder.withLimit(100));
+		for (Entity l : ls) {
+			long lId = (Long) l.getProperty("id");
+			if (lId == landId) {
+				Entity nl = new Entity(userId, lkey);
+				nl.setProperty("id", l.getProperty("id"));
+				nl.setProperty("owner", l.getProperty("owner"));
+				nl.setProperty("lat0", l.getProperty("lat0"));
+				nl.setProperty("lat1", l.getProperty("lat1"));
+				nl.setProperty("long0", l.getProperty("long0"));
+				nl.setProperty("long1", l.getProperty("long1"));
+				datastore.delete(l.getKey());
+				datastore.put(nl);
+				break;
+			}
+		}
+	}
+	
+	//check whether the attacker can win
+	private boolean canWin(String userId, long landId) {
+		Key ukey = KeyFactory.createKey("user", "default");
+		Key lkey = KeyFactory.createKey("land", "default");
+		Query uquery = new Query(userId, ukey);
+		List<Entity> us = datastore.prepare(uquery).asList(FetchOptions.Builder.withLimit(100));
+		Entity user = us.get(0);
+		long atk = (Long) user.getProperty("atk");
+		long defence = 0;
+		Query lquery = new Query(lkey);
+		List<Entity> ls = datastore.prepare(lquery).asList(FetchOptions.Builder.withLimit(100));
+		for (Entity l : ls) {
+			long lId = (Long) l.getProperty("id");
+			if (lId == landId) {
+				defence = (Long) l.getProperty("defence");
+				break;
+			}
+		}
+		if (atk > defence)
+			return true;
+		else
+			return false;
+	}
+		
+	//return true if succeed, false otherwise
+	public String attack(String userId, int landId) {
+		Key key = KeyFactory.createKey("user", "default");
+		Query query = new Query(userId, key);
+		List<Entity> us = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(100));
+		Entity user = us.get(0);
+		Date date = new Date();
+		Date lastAtk = (Date) user.getProperty("lastAtk");
+		String result = null;
+		if (lastAtk == null || afterOneDay(date, lastAtk)) {
+			user.setProperty("lastAtk", date);
+			if (canWin(userId, landId)) {
+				changeOwner(userId, landId);
+				result = "succeeded";
+			}
+			else {
+				result = "failed";
+			}
+		}
+		else
+			result = "not yet";
+		return result;
 	}
 }

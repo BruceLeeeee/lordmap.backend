@@ -5,9 +5,8 @@ import java.util.Date;
 public class User {
 	private String userId;
 	private String userPwd;
-	private int atk;
-	private Date[] last3Atks;
-	private int money;
+	private long atk;
+	private long money;
 	private int[] landIds;
 	private int[] tasks;
 	private int[] friends;
@@ -24,22 +23,16 @@ public class User {
 	public void setUserPwd(String userPwd) {
 		this.userPwd = userPwd;
 	}
-	public int getAtk() {
+	public long getAtk() {
 		return atk;
 	}
-	public void setAtk(int atk) {
+	public void setAtk(long atk) {
 		this.atk = atk;
 	}
-	public Date[] getLast3Atks() {
-		return last3Atks;
-	}
-	public void setLast3Atks(Date[] last3Atks) {
-		this.last3Atks = last3Atks;
-	}
-	public int getMoney() {
+	public long getMoney() {
 		return money;
 	}
-	public void setMoney(int money) {
+	public void setMoney(long money) {
 		this.money = money;
 	}
 	public int[] getLandIds() {
