@@ -92,6 +92,7 @@ public class DataStore {
 		return false;
 	}
 	
+	// show userId's land
 	public ArrayList<Land> showLands(String userId) {
 		Key key = KeyFactory.createKey("land", "default");
 		ArrayList<Land> lands = new ArrayList<Land>();
@@ -320,7 +321,7 @@ public class DataStore {
 		return friends;
 	}
 	
-	//show all friends
+	//show all friends of userId
 	public ArrayList<String> showFriends(String userId) {
 		Key key = KeyFactory.createKey("friend", "default");
 		Query query = new Query(userId, key);
@@ -338,9 +339,6 @@ public class DataStore {
 		Key key = KeyFactory.createKey("user", "default");
 		Query query = new Query(userId, key);
 		Entity user = datastore.prepare(query).asSingleEntity();
-//		if (user == null)
-//			return false;
-		
 		long balance = (Long)user.getProperty("money");
 		if (balance >= Inventory.price[inventoryIndex]) 
 			return true;
@@ -456,5 +454,18 @@ public class DataStore {
 		else
 			result = "not yet";
 		return result;
+	}
+	
+	// get a user's personal info
+	public User getUserInfo(String userId) {
+		Key key = KeyFactory.createKey("user", "default");
+		Query query = new Query(userId, key);
+		Entity ent = datastore.prepare(query).asSingleEntity();
+		User user = new User();
+		user.setUserId(userId);
+		user.setAtk((Long)ent.getProperty("atk"));
+		user.setMoney((Long)ent.getProperty("money"));
+			
+		return user;
 	}
 }
