@@ -9,6 +9,7 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query;
+import com.lordMap.models.Inventory;
 import com.lordMap.models.Land;
 import com.lordMap.models.User;
 
@@ -46,6 +47,7 @@ public class DataStore {
 		Entity user = new Entity(newUser.getUserId(), key);
 		user.setProperty("userId", newUser.getUserId());
 		user.setProperty("userPwd", newUser.getUserPwd());
+		user.setProperty("money", newUser.getMoney());
 		datastore.put(user);		
 	}
 	
@@ -134,7 +136,8 @@ public class DataStore {
 	    return lands;
 	}
 	
-	public ArrayList<Land> findLands(double lat, double lng) {
+	//find lands that are within radius or belongs to userId
+	public ArrayList<Land> findLands(String userId, double lat, double lng) {
 //		Key key = KeyFactory.createKey("land", "default");
 //		ArrayList<Land> lands = new ArrayList<Land>();
 //		Query query = new Query(key);
@@ -168,7 +171,7 @@ public class DataStore {
 	    	double[] center = new double[2];
 	    	center[0] = lat;
 	    	center[1] = lng;
-	    	if (rectAndCircleAreOverlap(land.getLats(), land.getLongs(), center)) {
+	    	if (land.getOwner().equals(userId) || rectAndCircleAreOverlap(land.getLats(), land.getLongs(), center)) {
 	    		lands.add(land);
 	    	}
 //	    	lands.add(land);
@@ -322,5 +325,42 @@ public class DataStore {
 		}
 		
 		return friends;
+	}
+	
+	//check whether an item is affordable
+	public boolean isAffordable(String userId, int inventoryIndex) {
+		Key key = KeyFactory.createKey("user", "default");
+		Query query = new Query(userId, key);
+		Entity user = datastore.prepare(query).asSingleEntity();
+//		if (user == null)
+//			return false;
+		
+		long balance = (Long)user.getProperty("money");
+		if (balance >= Inventory.price[inventoryIndex]) 
+			return true;
+		
+		return false;
+	}
+	
+	//purchase an item
+	public long purchaseItem(String userId, int inventoryIndex) {
+		Key key = KeyFactory.createKey("user", "default");
+		Query query = new Query(userId, key);
+		Entity user = datastore.prepare(query).asSingleEntity();
+		long balance = (Long)user.getProperty("money");
+		balance -= Inventory.price[inventoryIndex];
+		user.setProperty("money", balance);
+		storeCommodity(userId, inventoryIndex);
+		datastore.put(user);
+		
+		return balance;
+	}
+	
+	//store Commodity
+	public void storeCommodity(String userId, int inventoryIndex) {
+		Key key = KeyFactory.createKey("commodity", "default");
+		Entity commodity = new Entity(userId, key);
+		commodity.setProperty("index", inventoryIndex);
+		datastore.put(commodity);
 	}
 }

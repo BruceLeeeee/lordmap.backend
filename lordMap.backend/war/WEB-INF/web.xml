@@ -78,4 +78,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
         <url-pattern>/getinventory</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <servlet-name>buyitem</servlet-name>
+        <servlet-class>com.lordMap.servlets.BuyItemServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>buyitem</servlet-name>
+        <url-pattern>/buyitem</url-pattern>
+    </servlet-mapping>
+    
+    
 </web-app>

@@ -35,7 +35,7 @@ public class GetSurroundingServlet extends HttpServlet {
 		PrintWriter out = resp.getWriter();
 		DataStore ds = new DataStore();
 		parseReq(req);
-		lands = ds.findLands(lat, lng);
+		lands = ds.findLands(userId, lat, lng);
 		friends = ds.showFriends(userId);
 		Collections.sort(friends);
 		String[] rel = new String[lands.size()];
