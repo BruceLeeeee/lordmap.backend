@@ -87,13 +87,31 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
         <url-pattern>/buyitem</url-pattern>
     </servlet-mapping>
     
-     <servlet>
+    <servlet>
         <servlet-name>getuserinfo</servlet-name>
         <servlet-class>com.lordMap.servlets.GetUserInfoServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>getuserinfo</servlet-name>
         <url-pattern>/getuserinfo</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>starttask</servlet-name>
+        <servlet-class>com.lordMap.servlets.StartTaskServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>starttask</servlet-name>
+        <url-pattern>/starttask</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>finishtask</servlet-name>
+        <servlet-class>com.lordMap.servlets.FinishTaskServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>finishtask</servlet-name>
+        <url-pattern>/finishtask</url-pattern>
     </servlet-mapping>
     
 </web-app>

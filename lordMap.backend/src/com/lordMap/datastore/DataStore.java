@@ -23,6 +23,8 @@ public class DataStore {
 	private DatastoreService datastore;
 	private final static double RADIUS = 1;
 	private final static double PRECISION = 0.0000001;
+	private final static double TASK1DIS = 0.0001;
+	private final static double TASK1MONEY = 5000;
 
 	public DataStore() {
 		datastore = DatastoreServiceFactory.getDatastoreService();
@@ -467,5 +469,58 @@ public class DataStore {
 		user.setMoney((Long)ent.getProperty("money"));
 			
 		return user;
+	}
+	
+	//store task1 info, return true if a brand new task is started, 
+	//false if the old task was given up and a new one is started
+	public boolean storeTask1Info(String userId, double lat, double lng) {
+		Key key = KeyFactory.createKey("task1", "default");
+		Entity task1 = isTask1Started(userId);
+		boolean flag = false;
+		if (task1 == null) { 
+			task1 = new Entity(userId, key);
+			flag = true;
+		}
+		task1.setProperty("startLat", lat);
+		task1.setProperty("startLng", lng);
+		datastore.put(task1);
+		
+		return flag;
+	}
+	
+	//check whether task1 has started, return null if task1 has not been started
+	public Entity isTask1Started(String userId) {
+		Key key = KeyFactory.createKey("task1", "default");
+		Query query = new Query(userId, key);
+		Entity task1 = datastore.prepare(query).asSingleEntity();
+		return task1;
+	}
+	
+	//check whether task1 has finished
+	public boolean checkTask1Status(String userId, double lat, double lng) {
+		Key key = KeyFactory.createKey("task1", "default");
+		Query query = new Query(userId, key);
+		Entity ent = datastore.prepare(query).asSingleEntity();
+		double startLat = (Double)ent.getProperty("startLat");
+		double startLng = (Double)ent.getProperty("startLng");
+		double dis = (lat - startLat) * (lat - startLat) + (lng - startLng) * (lng - startLng);
+		dis = Math.sqrt(dis);
+		
+		if (dis - TASK1DIS > PRECISION) {
+			datastore.delete(ent.getKey());
+			increaseMoney(userId);
+			return true;
+		}
+		return false;
+	}
+	
+	private void increaseMoney(String userId) {
+		Key key = KeyFactory.createKey("user", "default");
+		Query query = new Query(userId, key);
+		Entity user = datastore.prepare(query).asSingleEntity();
+		long money = (Long)user.getProperty("money");
+		money += TASK1MONEY;
+		user.setProperty("money", money);
+		datastore.put(user);
 	}
 }
