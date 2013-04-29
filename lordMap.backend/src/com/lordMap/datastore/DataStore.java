@@ -382,9 +382,9 @@ public class DataStore {
 			return false;
 		else if (date.getMonth() > lastAtk.getMonth())
 			return true;
-		else if (date.getDate() < date.getDate())
+		else if (date.getDate() < lastAtk.getDate())
 			return false;
-		else if (date.getDate() > date.getDate())
+		else if (date.getDate() > lastAtk.getDate())
 			return true;
 		else 
 			return false;
@@ -400,7 +400,7 @@ public class DataStore {
 			if (lId == landId) {
 				Entity nl = new Entity(userId, lkey);
 				nl.setProperty("id", l.getProperty("id"));
-				nl.setProperty("owner", l.getProperty("owner"));
+				nl.setProperty("owner", userId);
 				nl.setProperty("lat0", l.getProperty("lat0"));
 				nl.setProperty("lat1", l.getProperty("lat1"));
 				nl.setProperty("long0", l.getProperty("long0"));
@@ -441,12 +441,14 @@ public class DataStore {
 		Key key = KeyFactory.createKey("user", "default");
 		Query query = new Query(userId, key);
 		List<Entity> us = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(100));
-		Entity user = us.get(0);
+		Entity user = us.get(0); 
+		//System.out.println(user.getProperty("userId"));
 		Date date = new Date();
 		Date lastAtk = (Date) user.getProperty("lastAtk");
 		String result = null;
 		if (lastAtk == null || afterOneDay(date, lastAtk)) {
 			user.setProperty("lastAtk", date);
+			datastore.put(user);
 			if (canWin(userId, landId)) {
 				changeOwner(userId, landId);
 				result = "succeeded";
