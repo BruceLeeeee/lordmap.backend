@@ -130,8 +130,8 @@ public class DataStore {
 			Land nl = new Land();
 			nl.setOwner((String) l.getProperty("owner"));
 			nl.setId((Long) l.getProperty("id"));
-			//nl.setPrice((Integer) l.getProperty("price"));
-			//nl.setDefence((Integer) l.getProperty("defence"));
+			nl.setPrice((Long) l.getProperty("price"));
+			nl.setDefence((Long) l.getProperty("defence"));
 			double[] lats = new double[2];
 			double[] longs = new double[2];
 			lats[0] = (Double) l.getProperty("lat0");
@@ -406,6 +406,11 @@ public class DataStore {
 				nl.setProperty("lat1", l.getProperty("lat1"));
 				nl.setProperty("long0", l.getProperty("long0"));
 				nl.setProperty("long1", l.getProperty("long1"));
+				nl.setProperty("defence", l.getProperty("defence"));
+				nl.setProperty("price", l.getProperty("price"));
+				nl.setProperty("name", l.getProperty("name"));
+				nl.setProperty("msg", l.getProperty("msg"));
+				
 				datastore.delete(l.getKey());
 				datastore.put(nl);
 				break;
@@ -436,7 +441,23 @@ public class DataStore {
 		else
 			return false;
 	}
-		
+	
+	//get owner of a land
+	private String getOwner(long landId) {
+		Key lkey = KeyFactory.createKey("land", "default");
+		Query lquery = new Query(lkey);
+		String result = null;
+		List<Entity> ls = datastore.prepare(lquery).asList(FetchOptions.Builder.withLimit(100));
+		for (Entity l : ls) {
+			long lId = (Long) l.getProperty("id");
+			if (lId == landId) {
+				result = (String) l.getProperty("owner");
+				break;
+			}
+		}
+		return result;
+	}
+	
 	//return true if succeed, false otherwise
 	public String attack(String userId, int landId) {
 		Key key = KeyFactory.createKey("user", "default");
@@ -451,10 +472,14 @@ public class DataStore {
 			user.setProperty("lastAtk", date);
 			datastore.put(user);
 			if (canWin(userId, landId)) {
+				String owner = getOwner(landId);
+				sendMessage("GM", owner, userId + " attacked you, you lost land" + landId);
 				changeOwner(userId, landId);
 				result = "succeeded";
 			}
 			else {
+				String owner = getOwner(landId);
+				sendMessage("GM", owner, userId + " attacked you, but failed!");
 				result = "failed";
 			}
 		}
