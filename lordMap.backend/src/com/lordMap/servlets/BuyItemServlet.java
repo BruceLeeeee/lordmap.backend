@@ -36,6 +36,7 @@ public class BuyItemServlet extends HttpServlet {
 		String resultStr = null;
 		if (ds.isAffordable(userId, inventoryIndex)) {
 			balance = ds.purchaseItem(userId, inventoryIndex);
+			ds.equipItem(userId, inventoryIndex);
 			resultStr = "yes";
 			
 		} else {

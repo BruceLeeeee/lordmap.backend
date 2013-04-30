@@ -104,8 +104,8 @@ public class DataStore {
 			Land nl = new Land();
 			nl.setOwner(userId);
 			nl.setId((Long) l.getProperty("id"));
-			//nl.setPrice((Long) l.getProperty("price"));
-			//nl.setDefence((Long) l.getProperty("defence"));
+			nl.setPrice((Long) l.getProperty("price"));
+			nl.setDefence((Long) l.getProperty("defence"));
 			double[] lats = new double[2];
 			double[] longs = new double[2];
 			lats[0] = (Double) l.getProperty("lat0");
@@ -584,6 +584,7 @@ public class DataStore {
 		datastore.put(msgE);
 	}
 	
+	//get all msgs of user
 	public ArrayList<String> getMessage(String userId) {
 		ArrayList<String> msgs = new ArrayList<String>();
 		Key key = KeyFactory.createKey("msg", "default");
@@ -599,6 +600,35 @@ public class DataStore {
 			}
 		}
 		return msgs;
+	}
+		
+	public void equipItem(String userId, int inventoryIndex) {
+		if (inventoryIndex <= 4)
+			equipWeapon(userId, inventoryIndex);
+		else 
+			equipWall(userId, inventoryIndex);
+	}
+	
+	private void equipWeapon(String userId, int inventoryIndex) {
+		Key key = KeyFactory.createKey("user", "default");
+		Query query = new Query(userId, key);
+		Entity user = datastore.prepare(query).asSingleEntity();
+		long atk = (Long)user.getProperty("atk");
+		atk += Inventory.atkPoint[inventoryIndex];
+		user.setProperty("atk", atk);
+		datastore.put(user);
+	}
+	
+	private void equipWall(String userId, int inventoryIndex) {
+		Key key = KeyFactory.createKey("land", "default");
+		Query query = new Query(userId, key);
+		List<Entity> ls = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(100));
+		for (Entity l : ls) {
+			long defence = (Long)l.getProperty("defence");
+			defence += Inventory.defPoint[inventoryIndex];
+			l.setProperty("defence", defence);
+			datastore.put(l);
+		}
 	}
 }
 
