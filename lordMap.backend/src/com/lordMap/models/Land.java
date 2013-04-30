@@ -1,22 +1,22 @@
 package com.lordMap.models;
 
 public class Land {
-	private int id;
-	private int price;
+	private long id;
+	private long price;
 	private double[] lats;
 	private double[] longs;
-	private int defence;
+	private long defence;
 	private String owner;
-	public int getId() {
+	public long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
-	public int getPrice() {
+	public long getPrice() {
 		return price;
 	}
-	public void setPrice(int price) {
+	public void setPrice(long price) {
 		this.price = price;
 	}
 	public double[] getLats() {
@@ -31,10 +31,10 @@ public class Land {
 	public void setLongs(double[] longs) {
 		this.longs = longs;
 	}
-	public int getDefence() {
+	public long getDefence() {
 		return defence;
 	}
-	public void setDefence(int defence) {
+	public void setDefence(long defence) {
 		this.defence = defence;
 	}
 	public String getOwner() {

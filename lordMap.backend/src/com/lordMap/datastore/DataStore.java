@@ -67,6 +67,7 @@ public class DataStore {
 		land.setProperty("lat1", newLand.getLats()[1]);
 		land.setProperty("long0", newLand.getLongs()[0]);
 		land.setProperty("long1", newLand.getLongs()[1]);
+		//newLand.setPrice(price)
 		//land.setProperty("price", newLand.getPrice());
 		//land.setProperty("defence", newLand.getDefence());
 		newLand.setId(findAllLands().size());
@@ -105,9 +106,9 @@ public class DataStore {
 		for (Entity l : ls) {
 			Land nl = new Land();
 			nl.setOwner(userId);
-			nl.setId((Integer) l.getProperty("id"));
-			nl.setPrice((Integer) l.getProperty("price"));
-			nl.setDefence((Integer) l.getProperty("defence"));
+			nl.setId((Long) l.getProperty("id"));
+			//nl.setPrice((Long) l.getProperty("price"));
+			//nl.setDefence((Long) l.getProperty("defence"));
 			double[] lats = new double[2];
 			double[] longs = new double[2];
 			lats[0] = (Double) l.getProperty("lat0");
