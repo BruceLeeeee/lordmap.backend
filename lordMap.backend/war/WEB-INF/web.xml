@@ -122,4 +122,13 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
         <url-pattern>/finishtask</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <servlet-name>setnamemsg</servlet-name>
+        <servlet-class>com.lordMap.servlets.SetLandNameMsgServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>setnamemsg</servlet-name>
+        <url-pattern>/setnamemsg</url-pattern>
+    </servlet-mapping>
+    
 </web-app>
