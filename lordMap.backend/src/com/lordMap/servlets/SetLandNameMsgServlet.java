@@ -26,7 +26,7 @@ public class SetLandNameMsgServlet extends HttpServlet {
 		PrintWriter out = resp.getWriter();
 		JSONObject result = new JSONObject();
 
-		String landId = req.getParameter("landId");
+		long landId = Long.valueOf(req.getParameter("landId"));
 		String name = req.getParameter("name");
 		String msg = req.getParameter("msg");
 		

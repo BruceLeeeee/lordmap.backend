@@ -529,13 +529,13 @@ public class DataStore {
 		datastore.put(user);
 	}
 	
-	public void setLandNameMsg(String landId, String name, String msg) {
+	public void setLandNameMsg(long landId, String name, String msg) {
 		Key lkey = KeyFactory.createKey("land", "default");
 		Query lquery = new Query(lkey);
 		List<Entity> ls = datastore.prepare(lquery).asList(FetchOptions.Builder.withLimit(100));
 		for (Entity l : ls) {
-			String id = (String) l.getProperty("id");
-			if (id.equals(landId)) {
+			long id = (Long) l.getProperty("id");
+			if (id == landId) {
 				l.setProperty("name", name);
 				l.setProperty("msg", msg);
 				datastore.put(l);
