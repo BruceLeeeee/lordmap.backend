@@ -131,4 +131,12 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
         <url-pattern>/setnamemsg</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <servlet-name>getpurchaseditems</servlet-name>
+        <servlet-class>com.lordMap.servlets.GetPurchasedItemsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getpurchaseditems</servlet-name>
+        <url-pattern>/getpurchaseditems</url-pattern>
+    </servlet-mapping>
 </web-app>

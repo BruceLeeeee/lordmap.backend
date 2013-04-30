@@ -1,6 +1,7 @@
 package com.lordMap.models;
 
 public class Inventory {
+	public static final int ITEM_NUM = 10;
 	public static final String[] name = {"Truesilver Champion",
 									"Soulblade of the Breaking Storm",
 									"Crushing Mass of McGowan",

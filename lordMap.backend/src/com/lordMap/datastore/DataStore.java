@@ -601,5 +601,15 @@ public class DataStore {
 			datastore.put(l);
 		}
 	}
+	
+	public void getPurchasedItems(String userId, boolean[] indexFlag) {
+		Key key = KeyFactory.createKey("commodity", "default");
+		Query query = new Query(userId, key);
+		List<Entity> ls = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(100));
+		for (Entity l : ls) {
+			int index = ((Long)l.getProperty("index")).intValue();
+			indexFlag[index] = true;
+		}
+	}
 }
 
