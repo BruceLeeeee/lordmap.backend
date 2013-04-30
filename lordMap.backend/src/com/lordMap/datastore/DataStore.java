@@ -572,5 +572,33 @@ public class DataStore {
 		user.setProperty("money", money);
 		datastore.put(user);
 	}
+	
+	//id1 sends msg to id2
+	public void sendMessage(String userId1, String userId2, String msg) {
+		Key key = KeyFactory.createKey("msg", "default");
+		Entity msgE = new Entity("msg", key);
+		msgE.setProperty("sender", userId1);
+		msgE.setProperty("receiver", userId2);
+		msgE.setProperty("content", msg);
+		msgE.setProperty("time", new Date());
+		datastore.put(msgE);
+	}
+	
+	public ArrayList<String> getMessage(String userId) {
+		ArrayList<String> msgs = new ArrayList<String>();
+		Key key = KeyFactory.createKey("msg", "default");
+		Query query = new Query("msg", key);
+		List<Entity> ms = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(100));
+		for (Entity m : ms) {
+			String user = (String) m.getProperty("receiver");
+			if (user.equals(userId)) {
+				String sender = (String) m.getProperty("sender");
+				String content = (String) m.getProperty("content");
+				String result = sender + ": " + content;
+				msgs.add(result);
+			}
+		}
+		return msgs;
+	}
 }
 

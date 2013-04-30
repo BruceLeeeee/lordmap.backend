@@ -131,4 +131,22 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
         <url-pattern>/setnamemsg</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <servlet-name>sendmsg</servlet-name>
+        <servlet-class>com.lordMap.servlets.SendMsgServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>sendmsg</servlet-name>
+        <url-pattern>/sendmsg</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>getmsg</servlet-name>
+        <servlet-class>com.lordMap.servlets.GetMsgServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getmsg</servlet-name>
+        <url-pattern>/getmsg</url-pattern>
+    </servlet-mapping>
+    
 </web-app>
