@@ -67,16 +67,11 @@ public class DataStore {
 		land.setProperty("lat1", newLand.getLats()[1]);
 		land.setProperty("long0", newLand.getLongs()[0]);
 		land.setProperty("long1", newLand.getLongs()[1]);
-		//newLand.setPrice(price)
-		//land.setProperty("price", newLand.getPrice());
-		//land.setProperty("defence", newLand.getDefence());
+		land.setProperty("price", newLand.getPrice());
+		land.setProperty("defence", newLand.getDefence());
 		newLand.setId(findAllLands().size());
 		land.setProperty("id", newLand.getId());
-		newLand.setDefence(1000);
-		land.setProperty("defence", newLand.getDefence());
-		
 		datastore.put(land);
-
 	}
 	
 	//check whether two squares overlap
@@ -525,6 +520,34 @@ public class DataStore {
 		Entity user = datastore.prepare(query).asSingleEntity();
 		long money = (Long)user.getProperty("money");
 		money += TASK1MONEY;
+		user.setProperty("money", money);
+		datastore.put(user);
+	}
+	
+	public boolean landIsAffordable(String userId, double[] lats, double[] lngs) {
+		long landPrice = evaluateLand(lats, lngs);
+		Key key = KeyFactory.createKey("user", "default");
+		Query query = new Query(userId, key);
+		Entity user = datastore.prepare(query).asSingleEntity();
+		long balance = (Long)user.getProperty("money");
+		if (balance >= landPrice) 
+			return true;
+		
+		return false;
+	}
+	
+	//evaluate a piece of land, return its price
+	public long evaluateLand(double[] lats, double[] lngs) {
+		long landPrice = (long)Math.abs((lats[0] - lats[1]) * (lngs[0] - lngs[1]) * 100000000);
+		return landPrice;
+	}
+	
+	public void decreaseMoney(String userId, long landPrice) {
+		Key key = KeyFactory.createKey("user", "default");
+		Query query = new Query(userId, key);
+		Entity user = datastore.prepare(query).asSingleEntity();
+		long money = (Long)user.getProperty("money");
+		money -= landPrice;
 		user.setProperty("money", money);
 		datastore.put(user);
 	}

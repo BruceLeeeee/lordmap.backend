@@ -39,15 +39,20 @@ public class BuyLandServlet extends HttpServlet {
 		DataStore ds = new DataStore();
 		String resultStr = null;
 		if (ds.checkOverlaps(lats, longs)) {
-			resultStr = "no";
-		}
-		else {
+			resultStr = "overlap";
+		} else if (!ds.landIsAffordable(userId, lats, longs)) {
+			resultStr = "not enough money";
+		} else {
 			resultStr = "yes";
 			Land nl = new Land();
+			long landPrice = ds.evaluateLand(lats, longs); 
 			nl.setLats(lats);
 			nl.setLongs(longs);
 			nl.setOwner(userId);
+			nl.setDefence(1000);
+			nl.setPrice(landPrice);
 			ds.storeLand(nl);
+			ds.decreaseMoney(userId, landPrice);
 		}
 		try {
 			result.put("result", resultStr);
