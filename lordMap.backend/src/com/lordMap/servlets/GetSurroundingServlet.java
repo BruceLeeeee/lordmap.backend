@@ -55,6 +55,8 @@ public class GetSurroundingServlet extends HttpServlet {
 				r.put("lat1", l.getLats()[1]);
 				r.put("long1", l.getLongs()[1]);
 				r.put("rel", rel[count]);
+				r.put("name", l.getName());
+				r.put("msg", l.getMsg());
 				count++;
 				arr.put(r);
 			} catch (JSONException e) {
