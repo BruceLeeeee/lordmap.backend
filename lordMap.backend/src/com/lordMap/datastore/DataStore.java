@@ -69,6 +69,8 @@ public class DataStore {
 		land.setProperty("long1", newLand.getLongs()[1]);
 		land.setProperty("price", newLand.getPrice());
 		land.setProperty("defence", newLand.getDefence());
+		land.setProperty("name", "");
+		land.setProperty("msg", "");
 		newLand.setId(findAllLands().size());
 		land.setProperty("id", newLand.getId());
 		datastore.put(land);
@@ -112,7 +114,8 @@ public class DataStore {
 			longs[1] = (Double) l.getProperty("long1");
 			nl.setLats(lats);
 			nl.setLongs(longs);
-			
+			nl.setName((String) l.getProperty("name"));
+			nl.setMsg((String) l.getProperty("msg"));
 			lands.add(nl);
 		}
 		return lands;
@@ -126,7 +129,7 @@ public class DataStore {
 		for (Entity l : ls) {
 			Land nl = new Land();
 			nl.setOwner((String) l.getProperty("owner"));
-			//nl.setId((Integer) l.getProperty("id"));
+			nl.setId((Long) l.getProperty("id"));
 			//nl.setPrice((Integer) l.getProperty("price"));
 			//nl.setDefence((Integer) l.getProperty("defence"));
 			double[] lats = new double[2];
@@ -137,6 +140,8 @@ public class DataStore {
 			longs[1] = (Double) l.getProperty("long1");
 			nl.setLats(lats);
 			nl.setLongs(longs);
+			nl.setName((String) l.getProperty("name"));
+			nl.setMsg((String) l.getProperty("msg"));
 			lands.add(nl);
 		}
 	    return lands;
