@@ -123,12 +123,39 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
     </servlet-mapping>
     
     <servlet>
-        <servlet-name>setnamemsg</servlet-name>
-        <servlet-class>com.lordMap.servlets.SetLandNameMsgServlet</servlet-class>
+        <servlet-name>setname</servlet-name>
+        <servlet-class>com.lordMap.servlets.SetLandNameServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>setnamemsg</servlet-name>
-        <url-pattern>/setnamemsg</url-pattern>
+        <servlet-name>setname</servlet-name>
+        <url-pattern>/setname</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>setmsg</servlet-name>
+        <servlet-class>com.lordMap.servlets.SetLandMsgServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>setmsg</servlet-name>
+        <url-pattern>/setmsg</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>sendmsg</servlet-name>
+        <servlet-class>com.lordMap.servlets.SendMsgServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>sendmsg</servlet-name>
+        <url-pattern>/sendmsg</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>getmsg</servlet-name>
+        <servlet-class>com.lordMap.servlets.GetMsgServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getmsg</servlet-name>
+        <url-pattern>/getmsg</url-pattern>
     </servlet-mapping>
     
     <servlet>
