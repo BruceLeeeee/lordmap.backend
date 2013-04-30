@@ -105,9 +105,9 @@ public class DataStore {
 		for (Entity l : ls) {
 			Land nl = new Land();
 			nl.setOwner(userId);
-			//nl.setId((Integer) l.getProperty("id"));
-			//nl.setPrice((Integer) l.getProperty("price"));
-			//nl.setDefence((Integer) l.getProperty("defence"));
+			nl.setId((Integer) l.getProperty("id"));
+			nl.setPrice((Integer) l.getProperty("price"));
+			nl.setDefence((Integer) l.getProperty("defence"));
 			double[] lats = new double[2];
 			double[] longs = new double[2];
 			lats[0] = (Double) l.getProperty("lat0");
